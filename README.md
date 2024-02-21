@@ -1,7 +1,7 @@
 # Secure Firewall Multi Rule Edit
 
 ## Overview
-This tool is a work in progress effort example of creating an export client for Cisco Secure Endpoint events to Google Chronicle.
+This tool is a work in progress effort example of duplicating Cisco Secure Firewall rules within an existing Access Control Policy.
 
 ### Note
 Please be aware this project is a proof of concept and is not expected to be used as a production application without due diligence.
