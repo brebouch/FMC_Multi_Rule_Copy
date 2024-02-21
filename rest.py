@@ -1,3 +1,12 @@
+#############################################################
+#                                                           #
+# FMC REST API Session                                      #
+# Author: Brennan Bouchard                                  #
+#                                                           #
+# Date: 2/20/24                                             #
+#                                                           #
+#############################################################
+
 import base64
 import json
 from urllib.parse import urlencode
@@ -6,28 +15,26 @@ import requests
 
 class FmcSession:
 
-    def create_path(self, uri, params):
-        if kwargs:
-            return f'{self.base_url}{uri}?{urlencode(params)}'
-        return f'{self.base_url}{uri}'
-
     def get(self, uri, **kwargs):
         resp = self.session.get(f'{self.base_url}{uri}', params=urlencode(kwargs), verify=self.verify_ssl)
         if resp.status_code == 200:
             return resp.json()
 
     def post(self, uri, data, **kwargs):
-        resp = self.session.post(f'{self.base_url}{uri}', params=urlencode(kwargs), data=json.dumps(data), verify=self.verify_ssl)
+        resp = self.session.post(f'{self.base_url}{uri}', params=urlencode(kwargs), data=json.dumps(data),
+                                 verify=self.verify_ssl)
         if 199 < resp.status_code < 300:
             return resp.json()
 
     def put(self, uri, data, **kwargs):
-        resp = self.session.put(f'{self.base_url}{uri}', params=urlencode(kwargs), data=json.dumps(data), verify=self.verify_ssl)
+        resp = self.session.put(f'{self.base_url}{uri}', params=urlencode(kwargs), data=json.dumps(data),
+                                verify=self.verify_ssl)
         if 199 < resp.status_code < 300:
             return resp.json()
 
     def patch(self, uri, data, **kwargs):
-        resp = self.session.patch(f'{self.base_url}{uri}', params=urlencode(kwargs), data=json.dumps(data), verify=self.verify_ssl)
+        resp = self.session.patch(f'{self.base_url}{uri}', params=urlencode(kwargs), data=json.dumps(data),
+                                  verify=self.verify_ssl)
         if 199 < resp.status_code < 300:
             return resp.json()
 
@@ -35,7 +42,6 @@ class FmcSession:
         resp = self.session.delete(f'{self.base_url}{uri}', params=urlencode(kwargs), verify=self.verify_ssl)
         if 199 < resp.status_code < 300:
             return resp.json()
-
 
     def get_token(self):
         headers = {
@@ -67,4 +73,3 @@ class FmcSession:
             'X-auth-access-token': login_data['access_token'],
             'X-auth-refresh-token': login_data['refresh_token']
         })
-

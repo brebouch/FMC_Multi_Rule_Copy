@@ -8,40 +8,27 @@ Please be aware this project is a proof of concept and is not expected to be use
 
 ## Requirements
 
-1. API credentials to Cisco Secure Endpoint
-   https://www.cisco.com/c/en/us/support/docs/security/amp-endpoints/201121-Overview-of-the-Cisco-AMP-for-Endpoints.html#anc1
-2. A GCP Service Account with credentials file and access to Chronicles Ingest API
-    https://cloud.google.com/chronicle/docs/reference/ingestion-api#getting_api_authentication_credentials
-3. Compute resource with python3 installed
+1. API credentials to Cisco Secure Firewall Management Center
+2. Compute resource with python3 installed
 
 ## Configuration
 
 1. Clone the repository into the desired directory
 2. cd into the cloned directory
 3. Install dependencies, pip install -r requirements.txt
-4. Copy the GCP Service Account JSON file into the app directory with the name service_account.json
-5. Update .env file in app directory with the following
-   * Secure Endpoint API Client ID
-   * Secure Endpoint API Secret
-   * AMQP Hostname
-   * AMQP Username
-   * AMQP Password
-   * AMQP Stream Name
-   * Chronicle Customer ID
+4. Run the following command with associated arguments:
 
-## Deployment
+```bash
+python3 fmc_rule_copy.py ----hostname FMC_IP_HOSTNAME --username admin --password PASSWORD --acp FTDv-Access-Policy --rules 4,5,6, --modify_object DataCenter --object_new_name UpdatedDataCenter --object_new_value 172.16.88.0/24
+```
 
-1. If a Secure Endpoint Event Stream has not already been configured, create by running `python3 main.py create example_stream_name`
-2. Update the .env file with the AMQP connection details to include:
-   * AMQP Hostname
-   * AMQP Username
-   * AMQP Password
-   * AMQP Stream Name
-3. Start the Event Listener by running `python3 main.py serve`
-
-## Testing
-
-1. Once the Event Listener is running, from a Secure Endpoint protected computer or the Secure Endpoint console, initiate a scan for a device
-2. Validate that the event is being seen from Google Chronicle
-
-**Note** The event stream can be configured to filter certain events, make sure the event you are testing isn't filtered if you do not see the events in Google Chronicle following the test.
+Arguments: 
+* --hostname, Hostname or IP of FMC
+* --username, Username for authenticating with FMC
+* --password, Password for authenticating with FMC
+* --acp, Name of access control policy to duplicate rules from
+* --rules, Comma seperated list of rule numbers without spaces
+* --modify_object, Object name to be modified, must be IP, Network, Range
+* --object_new_name, Previous value to be modified
+* --object_new_value, Updated value of object
+* --log_name, Name of log file to write
